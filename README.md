@@ -131,21 +131,17 @@ We build a classifier to predict whether a passenger survived the Titanic disast
 
 This section covers exploratory analysis performed on the training data. Use the Jupyter notebook `data-analysis/train-data-analysis.ipynb` to generate and review the following:
 
-  <div style="
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 4px;
-  width: 300px;
-  height: 300px;
-  border: 2px solid #4285f4;
-">
-  <img src="screenshots/Survival-vs-Sex.png" alt="Survival vs Sex" style="width:100%; height:100%; object-fit:cover;">
-  <img src="screenshots/Survival-vs-Pclass.png" alt="Survival vs Pclass" style="width:100%; height:100%; object-fit:cover;">
-  <img src="screenshots/Survival-vs-IsAlone.png" alt="Survival vs IsAlone" style="width:100%; height:100%; object-fit:cover;">
-  <img src="screenshots/Survival-vs-Famly-Size.png" alt="Survival vs Family Size" style="width:100%; height:100%; object-fit:cover;">
-</div>
 
+<table>
+  <tr>
+    <td><img src="screenshots/Survival-vs-Sex.png" alt="Survival vs Sex" width="300"></td>
+    <td><img src="screenshots/Survival-vs-Pclass.png" alt="Survival vs Pclass" width="300"></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/Survival-vs-IsAlone.png" alt="Survival vs IsAlone" width="300"></td>
+    <td><img src="screenshots/Survival-vs-Famly-Size.png" alt="Survival vs Family Size" width="300"></td>
+  </tr>
+</table>
 Feel free to add additional graphs or insights here as needed.
 
 ---
