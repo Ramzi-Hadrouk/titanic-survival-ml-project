@@ -4,7 +4,7 @@ from typing import Optional
 from pathlib import Path
 from config import config
 from utils.encode_categorical_variables import encode_categorical_variables
-
+from utils.save_models import save_model
 
 def train_titanic_classification_model(train_path: Optional[Path] = None) -> LogisticRegression:
 
@@ -20,5 +20,8 @@ def train_titanic_classification_model(train_path: Optional[Path] = None) -> Log
     # Train model
     model = LogisticRegression(max_iter=1000)
     model.fit(X_train, y_train)
+  
+    # Save the trained model
+    save_model(model)
     
     return model
