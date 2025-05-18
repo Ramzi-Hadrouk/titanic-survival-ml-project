@@ -12,6 +12,14 @@ class Config:
     RAW_TEST_PATH = DATA_DIR / "raw/test.csv"
     GENDER_SUBMISSION_PATH = DATA_DIR / "raw/gender_submission.csv"
     
+    # Add to the Config class
+    RESULTS_DIR = BASE_DIR / "results"
+    RESULTS_FILE = RESULTS_DIR / "test_results.txt"
+
+   # Add to Config class
+    MODELS_DIR = BASE_DIR / "models"
+    MODEL_FILE = MODELS_DIR / "titanic_model.pkl"
+
     # Model features
     FEATURES = [
         "Pclass", "Sex", "Age", "SibSp", "Parch", "Fare",

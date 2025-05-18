@@ -6,11 +6,13 @@ from pathlib import Path
 from config import config
 from utils.add_family_features import add_family_features
 from utils.encode_categorical_variables import encode_categorical_variables
+from utils.save_test_results import save_test_results
 
 def test_titanic_classification_model(
     model: LogisticRegression,
     test_path: Optional[Path] = None,
-    submission_path: Optional[Path] = None
+    submission_path: Optional[Path] = None ,
+    save_results: bool = True
 ) -> dict:
     """
     Evaluates a trained Titanic classification model on test data.
@@ -37,8 +39,8 @@ def test_titanic_classification_model(
     
     # Make predictions
     y_pred = model.predict(X_test)
-    
-    # Calculate metrics
+        
+
     metrics = {
         "accuracy": accuracy_score(y_test, y_pred),
         "classification_report": classification_report(y_test, y_pred),
@@ -49,5 +51,11 @@ def test_titanic_classification_model(
     print(f"✅ Accuracy: {metrics['accuracy']:.4f}")
     print("\n📄 Classification Report:\n", metrics['classification_report'])
     print("\n🧱 Confusion Matrix:\n", metrics['confusion_matrix'])
+    
+
+    if save_results:
+        save_test_results(metrics, model)
+    # Calculate metrics
+
     
     return metrics
