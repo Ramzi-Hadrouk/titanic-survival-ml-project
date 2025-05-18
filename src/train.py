@@ -1,26 +1,24 @@
-#---------------------------------------------------------------------
-# Importing necessary libraries
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
+from typing import Optional
+from pathlib import Path
+from config import config
+from utils.encode_categorical_variables import encode_categorical_variables
 
 
-def train_titanic_classification_model(path: str = None) -> LogisticRegression:
-    if path:
-        # Load the dataset
-        train_data = pd.read_csv(path)
-    else:
-        train_data = pd.read_csv("../data/processed/train_processed.csv")
+def train_titanic_classification_model(train_path: Optional[Path] = None) -> LogisticRegression:
 
-    # Map Sex: male = 0, female = 1
-    train_data["Sex"] = train_data["Sex"].map({"male": 0, "female": 1})
+    # Load and preprocess data
+    train_data = pd.read_csv(train_path or config.PROCESSED_TRAIN_PATH)
 
-    # Map Embarked: C=0, Q=1, S=2
-    train_data["Embarked"] = train_data["Embarked"].map({"C": 0, "Q": 1, "S": 2})
-
-    features = ["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare","FamilySize", "IsAlone","Embarked"]
-    X_train = train_data[features]
+    #Encode categorical variables
+    train_data=encode_categorical_variables(train_data)
+    # Prepare features and target
+    X_train = train_data[config.FEATURES]
     y_train = train_data["Survived"]
+    
+    # Train model
     model = LogisticRegression(max_iter=1000)
     model.fit(X_train, y_train)
-
+    
     return model
