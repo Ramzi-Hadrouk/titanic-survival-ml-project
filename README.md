@@ -10,14 +10,15 @@ A machine-learning pipeline to predict passenger survival on the Titanic. This p
 2. [Directory Structure](#directory-structure)
 3. [Getting Started](#getting-started)
 4. [Data](#data)
-5. [Data Analysis](#data-analysis)
+5. [Handling Missing Data](#handling-missing-data)
 6. [Feature Engineering & Preprocessing](#feature-engineering--preprocessing)
-7. [Modeling](#modeling)
-8. [Inference API](#inference-api)
-9. [API Requests & Responses](#api-requests--responses)
-10. [Utilities](#utilities)
-11. [Screenshots](#screenshots)
-12. [License](#license)
+7. [Data Analysis](#data-analysis)
+8. [Modeling](#modeling)
+9. [Evaluation](#evaluation)
+10. [Inference API](#inference-api)
+11. [API Requests & Responses](#api-requests--responses)
+12. [Utilities](#utilities)
+13. [License](#license)
 
 ---
 
@@ -38,42 +39,42 @@ We build a classifier to predict whether a passenger survived the Titanic disast
 
 ```
 .
-├── .venv/                      # Python virtual environment
-├── api/                        # FastAPI inference server
+├── .venv/ # Python virtual environment
+├── api/ # FastAPI inference server
 ├── data/
-│   ├── raw/                    # Original Kaggle CSVs
-│   │   ├── gender_submission.csv
-│   │   ├── test.csv
-│   │   └── train.csv
-│   └── processed/
-│       └── train_processed.csv
-├── data-analysis/              # Jupyter notebooks for EDA & analysis
-│   └── train-data-analysis.ipynb
-├── data-manipulation/          # Notebooks on cleaning & feature eng.
-│   ├── 1-handling-missing-values.ipynb
-│   └── 2-feature-engineering.ipynb
+│ ├── raw/ # Original Kaggle CSVs
+│ │ ├── gender_submission.csv
+│ │ ├── test.csv
+│ │ └── train.csv
+│ └── processed/
+│ └── train_processed.csv
+├── data-analysis/ # Jupyter notebooks for EDA & analysis
+│ └── train-data-analysis.ipynb
+├── data-manipulation/ # Notebooks on cleaning & feature eng.
+│ ├── 1-handling-missing-values.ipynb
+│ └── 2-feature-engineering.ipynb
 ├── models/
-│   └── titanic_model.pkl       # Serialized model
+│ └── titanic_model.pkl # Serialized model
 ├── results/
-│   └── test_results.md         # Evaluation metrics, confusion matrix
-├── screenshots/                # EDA plots
-│   ├── Survival-vs-Sex.png
-│   ├── Survival-vs-Pclass.png
-│   ├── Survival-vs-IsAlone.png
-│   └── Survival-vs-Family-Size.png
+│ └── test_results.md # Evaluation metrics, confusion matrix
+├── screenshots/ # EDA plots
+│ ├── Survival-vs-Sex.png
+│ ├── Survival-vs-Pclass.png
+│ ├── Survival-vs-IsAlone.png
+│ └── Survival-vs-Family-Size.png
 ├── src/
-│   ├── utils/                  # Utility scripts
-│   │   ├── add_family_features.py
-│   │   ├── encode_categorical_variables.py
-│   │   ├── load_model.py
-│   │   ├── save_models.py
-│   │   └── save_test_results.py
-│   ├── config.py               # Paths & hyperparameters
-│   ├── main.py                 # Orchestration entry point
-│   ├── train.py                # Training script
-│   └── test.py                 # Evaluation script
+│ ├── utils/ # Utility scripts
+│ │ ├── add_family_features.py
+│ │ ├── encode_categorical_variables.py
+│ │ ├── load_model.py
+│ │ ├── save_models.py
+│ │ └── save_test_results.py
+│ ├── config.py # Paths & hyperparameters
+│ ├── main.py # Orchestration entry point
+│ ├── train.py # Training script
+│ └── test.py # Evaluation script
 ├── .gitignore
-├── README.md                   # ← you are here
+├── README.md # ← you are here
 └── requirements.txt
 ```
 
@@ -90,22 +91,24 @@ We build a classifier to predict whether a passenger survived the Titanic disast
 
 1. **Clone the repo**:
 
-   ```bash
-   git clone https://github.com/your-username/titanic-prediction.git
-   cd titanic-prediction
-   ```
+```bash
+git clone https://github.com/your-username/titanic-prediction.git
+cd titanic-prediction
+```
+
 2. **Create & activate a virtual environment**:
 
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate   # Linux/macOS
-   .venv\Scripts\activate    # Windows
-   ```
+```bash
+python -m venv .venv
+source .venv/bin/activate # Linux/macOS
+.venv\Scripts\activate # Windows
+```
+
 3. **Install dependencies**:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
@@ -115,15 +118,31 @@ We build a classifier to predict whether a passenger survived the Titanic disast
 
 * `data/raw/train.csv` – Training labels & features
 * `data/raw/test.csv` – Hold-out set for final submission
-* `data/raw/gender_submission.csv` – Kaggle’s example submission
+* `data/raw/gender_submission.csv` – Kaggle's example submission
 
 ### Processed Data
 
 * After cleaning & feature engineering, the processed training set lives in:
 
-  ```
-  data/processed/train_processed.csv
-  ```
+```
+data/processed/train_processed.csv
+```
+
+---
+
+## Handling Missing Data
+
+Missing data is handled using predictive techniques for patterned features like age, and removing records that do not contribute meaningfully to the model.
+
+* See `data-manipulation/1-handling-missing-values.ipynb` for detailed implementation
+
+---
+
+## Feature Engineering & Preprocessing
+
+* New features: family size, is alone, title extraction, etc.
+* Implementation details in `data-manipulation/2-feature-engineering.ipynb`
+* Encoding & scaling performed via utility scripts in `src/utils/encode_categorical_variables.py`
 
 ---
 
@@ -131,26 +150,18 @@ We build a classifier to predict whether a passenger survived the Titanic disast
 
 This section covers exploratory analysis performed on the training data. Use the Jupyter notebook `data-analysis/train-data-analysis.ipynb` to generate and review the following:
 
-
 <table>
-  <tr>
-    <td><img src="screenshots/Survival-vs-Sex.png" alt="Survival vs Sex" width="300"></td>
-    <td><img src="screenshots/Survival-vs-Pclass.png" alt="Survival vs Pclass" width="300"></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/Survival-vs-IsAlone.png" alt="Survival vs IsAlone" width="300"></td>
-    <td><img src="screenshots/Survival-vs-Famly-Size.png" alt="Survival vs Family Size" width="300"></td>
-  </tr>
+<tr>
+<td><img src="screenshots/Survival-vs-Sex.png" alt="Survival vs Sex" width="300"></td>
+<td><img src="screenshots/Survival-vs-Pclass.png" alt="Survival vs Pclass" width="300"></td>
+</tr>
+<tr>
+<td><img src="screenshots/Survival-vs-IsAlone.png" alt="Survival vs IsAlone" width="300"></td>
+<td><img src="screenshots/Survival-vs-Famly-Size.png" alt="Survival vs Family Size" width="300"></td>
+</tr>
 </table>
+
 Feel free to add additional graphs or insights here as needed.
-
----
-
-## Feature Engineering & Preprocessing
-
-* Missing-value handling: `data-manipulation/1-handling-missing-values.ipynb`
-* New features: family size, is alone, title extraction, etc.: `data-manipulation/2-feature-engineering.ipynb`
-* Encoding & scaling performed via utility scripts in `src/utils/`
 
 ---
 
@@ -165,14 +176,19 @@ python src/train.py
 This will:
 
 1. Load `data/processed/train_processed.csv`
-2. Fit a classifier (e.g., RandomForest / XGBoost)
-3. Serialize model to `models/titanic_model.pkl`
+2. Encode data
+3. Fit a classifier (e.g., LogisticRegression)
+4. Serialize model to `models/titanic_model.pkl`
 
-### Evaluation & Results
+---
+
+## Evaluation
 
 ```bash
 python src/test.py
 ```
+
+The evaluation process applies the same missing data handling, feature engineering, and encoding steps to the test data before prediction.
 
 Results (accuracy, precision, recall, confusion matrix) are saved to `results/test_results.md`.
 
@@ -184,47 +200,58 @@ A simple FastAPI service lives in `api/`. To launch:
 
 ```bash
 cd api
-uvicorn main:app --reload
+uvicorn api.api:app --reload
 ```
 
-* **Endpoint**: `POST /predict`
+* **Endpoint 01**: `POST /predict`
 * **Input**: JSON payload with passenger features
 * **Output**: `{ "survived": 0|1, "probability": float }`
+.
 
+* **Endpoint 02**: `Get /model_info`
+* **Input**: Empty Body
+* **Output**: `{
+"model_type":"LogisticRegression",
+"features_used":["Pclass","Sex","Age","SibSp","Parch","Fare","FamilySize","IsAlone","Embarked"],
+"training_data":"/home/ramzi/Desktop/titanic-prediction/data/processed/train_processed.csv"
+}`
+
+![Survival vs Family Size](screenshots/Swagger-Doc.png)
 ---
 
 ## API Requests & Responses
 
-### Example Request (cURL)
+###  Request (CURL) to Make Prediction 
 
 ```bash
-curl -X POST \
-  http://localhost:8000/predict \
-  -H "Content-Type: application/json" \
-  -d '{
-    "Pclass": 3,
-    "Sex": "male",
-    "Age": 22,
-    "SibSp": 1,
-    "Parch": 0,
-    "Fare": 7.25,
-    "Embarked": "S",
-    "Title": "Mr",
-    "FamilySize": 2,
-    "IsAlone": 0
-}'
+curl -X POST "http://localhost:8000/predict" \
+-H "Content-Type: application/json" \
+-d '[{"Pclass":1,"Sex":"female","Age":30,"SibSp":1,"Parch":0,"Fare":50,"Embarked":"S"}]'
 ```
 
-### Example Response
+###  Response
 
 ```json
 {
-  "survived": 0,
-  "probability": 0.15
+"passenger_id":0,
+"survival_probability":0.9336290099510725,
+"survived":true
 }
 ```
+### Request (CURL) to Get Model Information
 
-Include more request/response examples as you expand the API.
+```bash
+curl -s "http://localhost:8000/model_info" 
+```
+### Response
+
+```json
+{
+"model_type":"LogisticRegression",
+"features_used":["Pclass","Sex","Age","SibSp","Parch","Fare","FamilySize","IsAlone","Embarked"],
+"training_data":"/home/ramzi/Desktop/titanic-prediction/data/processed/train_processed.csv"
+}
+```
 
 ---
 
@@ -235,15 +262,6 @@ Include more request/response examples as you expand the API.
 * **`load_model.py`** – Load serialized model
 * **`save_models.py`** – Helpers to persist models
 * **`save_test_results.py`** – Write evaluation summary
-
----
-
-## Screenshots
-
-![Survival vs Sex](screenshots/Survival-vs-Sex.png)
-![Survival vs Pclass](screenshots/Survival-vs-Pclass.png)
-![Survival vs IsAlone](screenshots/Survival-vs-IsAlone.png)
-![Survival vs Family Size](screenshots/Survival-vs-Family-Size.png)
 
 ---
 
