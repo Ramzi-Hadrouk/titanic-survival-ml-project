@@ -34,7 +34,8 @@ We build a classifier to predict whether a passenger survived the Titanic disast
 * A minimal FastAPI service to serve predictions
 
 ---
-
+![Survival vs Family Size](screenshots/Titanic-Survival-Prediction.png)
+---
 ## Directory Structure
 
 ```
